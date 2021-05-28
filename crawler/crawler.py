@@ -33,33 +33,38 @@ def crawl(num):
         brand = soup.select_one('section > div > section.productInfo > div.productInfo__content > div.productInfo__title > span > a')
         database['brand'] = brand.text
 
-    try:
+    if soup.find('div', {'class':'productSubInfo__detail-table'}):
         detail = soup.find('div', {'class':'productSubInfo__detail-table'}).getText(separator=u' ')
-        age = detail.split('연령구분 ')[1].split(' 푸드타입 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
-        database['age'] = age[0]
-        classification = age[1].split(' 중량 ')
-        database['classification'] = classification[0]
-        gram = classification[1].split(' 주재료 ')
-        database['gram'] = gram[0]
-        ingredient = gram[1].split(' 식단정보 ')
-        database['ingredient'] = ingredient[0]
-        info = ingredient[1].split(' 칼로리 ')
-        database['info'] = info[0]
-        from_company = info[1].split(' 원산지/제조사 ')
-        database['calory'] = from_company[0]
-        database['from_company'] = from_company[1]
-    except:
+        try:
+            database['detail'] = detail
+            age = detail.split('연령구분 ')[1].split(' 푸드타입 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
+            database['age'] = age[0]
+            classification = age[1].split(' 중량 ')
+            database['classification'] = classification[0]
+            gram = classification[1].split(' 주재료 ')
+            database['gram'] = gram[0]
+            ingredient = gram[1].split(' 식단정보 ')
+            database['ingredient'] = ingredient[0]
+            info = ingredient[1].split(' 칼로리 ')
+            database['info'] = info[0]
+            from_company = info[1].split(' 원산지/제조사 ')
+            database['calory'] = from_company[0]
+            database['from_company'] = from_company[1]
+        except IndexError:
+            database['detail'] = detail
+
+
+    if soup.find('div', {'class':'productSubInfo__detail-table'}):
         detail = soup.find('div', {'class':'productSubInfo__detail-table'}).getText(separator=u' ')
         database['detail'] = detail
 
-    img = soup.find('img'>'src', {'alt':'상품 이미지'})
-    database['img'] = img['src']
+    if soup.find('img'>'src', {'alt':'상품 이미지'}):
+        img = soup.find('img'>'src', {'alt':'상품 이미지'})
+        database['img'] = img['src']
 
-    try:
+    if soup.find('div', {'class':'content'}):
         content = soup.find('div', {'class':'content'})
         database['content'] = content.text
-    except:
-        pass
 
     # 성분이 다양해서 이름으로 분리해야할듯한데...
     if soup.find('div', {'class':'registeredIngredient__grid'}):

@@ -7,7 +7,7 @@ dynamodb = boto3.resource('dynamodb', region_name='us-east-2',aws_access_key_id=
 #response = access_key_pair.activate()
 
 table = dynamodb.Table('petfood')
-for i in range(1200,1250): #1099,1199
+for i in range(1300,1350): #1099,1199
   data = crawl(i)
   #title = data['title']
   #if table.get_item(Key={'title': title}) is None:
