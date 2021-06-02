@@ -40,69 +40,59 @@ def crawl(num):
         else:
             return 500
 
-    # 메모이제이션으로 중복 안되게 하기
-    if not num in visitedpage:
-        if soup.find('p', {'class':'productInfo__name'}):
-            titles = soup.find('p', {'class':'productInfo__name'})
-            database['title'] = titles.text
+    if soup.find('p', {'class':'productInfo__name'}):
+        titles = soup.find('p', {'class':'productInfo__name'})
+        database['title'] = titles.text
 
-        if soup.find('p', {'class':'productInfo__name'}) is None:
-            pass
+    if soup.find('p', {'class':'productInfo__name'}) is None:
+        pass
 
-        if soup.find('p', {'class':'breadcrumb__btn'}):
-            category = soup.find('p', {'class':'breadcrumb__btn'}).getText(separator=u' ') # 고양이 만 나옴
-            database['category'] = category
+    if soup.find('p', {'class':'breadcrumb__btn'}):
+        category = soup.find('p', {'class':'breadcrumb__btn'}).getText(separator=u' ') # 고양이 만 나옴
+        database['category'] = category
 
-        if soup.find('p', {'class':'breadcrumb__path'}):
-            category = soup.find('p', {'class':'breadcrumb__path'}).getText(separator=u' ') # 고양이 만 나옴
-            #script = soup.find('script')
-            #database['category'] = script
-            database['category'] = category
+    if soup.find('p', {'class':'breadcrumb__path'}):
+        category = soup.find('p', {'class':'breadcrumb__path'}).getText(separator=u' ') # 고양이 만 나옴
+        #script = soup.find('script')
+        #database['category'] = script
+        database['category'] = category
 
-        if soup.select_one('section > div > section.productInfo > div.productInfo__content > div.productInfo__title > span > a'):
-            brand = soup.select_one('section > div > section.productInfo > div.productInfo__content > div.productInfo__title > span > a')
-            database['brand'] = brand.text
+    if soup.select_one('section > div > section.productInfo > div.productInfo__content > div.productInfo__title > span > a'):
+        brand = soup.select_one('section > div > section.productInfo > div.productInfo__content > div.productInfo__title > span > a')
+        database['brand'] = brand.text
 
-        if soup.find('div', {'class':'productSubInfo__detail-table'}):
-            detail = soup.find('div', {'class':'productSubInfo__detail-table'}).getText(separator=u' ')
-            database['detail'] = detail
+    if soup.find('div', {'class':'productSubInfo__detail-table'}):
+        detail = soup.find('div', {'class':'productSubInfo__detail-table'}).getText(separator=u' ')
+        database['detail'] = detail
 
-        if soup.find('img'>'src', {'alt':'상품 이미지'}):
-            img = soup.find('img'>'src', {'alt':'상품 이미지'})
-            database['img'] = img['src']
+    if soup.find('img'>'src', {'alt':'상품 이미지'}):
+        img = soup.find('img'>'src', {'alt':'상품 이미지'})
+        database['img'] = img['src']
 
-        if soup.find('div', {'class':'content'}):
-            content = soup.find('div', {'class':'content'})
-            database['content'] = content.text
+    if soup.find('div', {'class':'content'}):
+        content = soup.find('div', {'class':'content'})
+        database['content'] = content.text
 
-        # 성분이 다양해서 이름으로 분리해야할듯한데...
-        if soup.find('div', {'class':'registeredIngredient__grid'}):
-            registeredIngredient__grid = soup.find('div', {'class':'registeredIngredient__grid'}).getText(separator=u' ')
-            database['nutrient'] = registeredIngredient__grid
-            if registeredIngredient__grid.startswith('성분등록번호'):
-                regi_num = registeredIngredient__grid.split('성분등록번호 ')[1].split(' 조단백 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
-                database['성분등록번호'] = regi_num[0]
-            if registeredIngredient__grid.startswith('조단백'):
-                protein = registeredIngredient__grid.split('조단백 ')[1].split(' 조지방 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
-                database['조단백'] = protein[0]      
-                #protein = regi_num[1].split(' 조지방 ')
-                fat = protein[1].split(' 조섬유 ')
-                database['조지방'] = fat[0]
-                fiber = fat[1].split(' 조회분 ')
-                database['조섬유'] = fiber[0]
-                ash = fiber[1].split(' 수분 ')
-                database['조회분'] = ash[0]
-                database['수분'] = ash[1]
-        elif soup.find('div', {'class':'nutritionCheck__grid'}):
-            nutritionCheck__grid = soup.find('div', {'class':'nutritionCheck__grid'}).getText(separator=u' ')
-            database['nutrient'] = nutritionCheck__grid
-
-        #   if IndexError:
-        #       print(f"{num}에서 에러")
-        #       pass
-        # if AttributeError:
-        #     print(f"{num}에서 Attribution 에러")
-        # 이걸 바로 클라우드 db에 저장??
-        visitedpage.append(num)
+    # 성분이 다양해서 이름으로 분리해야할듯한데...
+    if soup.find('div', {'class':'registeredIngredient__grid'}):
+        registeredIngredient__grid = soup.find('div', {'class':'registeredIngredient__grid'}).getText(separator=u' ')
+        database['nutrient'] = registeredIngredient__grid
+        if registeredIngredient__grid.startswith('성분등록번호'):
+            regi_num = registeredIngredient__grid.split('성분등록번호 ')[1].split(' 조단백 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
+            database['성분등록번호'] = regi_num[0]
+        if registeredIngredient__grid.startswith('조단백'):
+            protein = registeredIngredient__grid.split('조단백 ')[1].split(' 조지방 ')  # 정보 나옴 - 정규식으로 처리 해서 딕셔너리 넣을 수 있을듯
+            database['조단백'] = protein[0]      
+            #protein = regi_num[1].split(' 조지방 ')
+            fat = protein[1].split(' 조섬유 ')
+            database['조지방'] = fat[0]
+            fiber = fat[1].split(' 조회분 ')
+            database['조섬유'] = fiber[0]
+            ash = fiber[1].split(' 수분 ')
+            database['조회분'] = ash[0]
+            database['수분'] = ash[1]
+    elif soup.find('div', {'class':'nutritionCheck__grid'}):
+        nutritionCheck__grid = soup.find('div', {'class':'nutritionCheck__grid'}).getText(separator=u' ')
+        database['nutrient'] = nutritionCheck__grid
 
     return database
