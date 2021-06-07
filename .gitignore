@@ -3,6 +3,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 crawler/dynamo.py
+function/get_db.py
+db/upload.py
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
