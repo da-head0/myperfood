@@ -13,7 +13,12 @@
 </h1>
 <br>
 <!-- /.container -->
-<!-- {{data.page}} -->
+{{% if datalist %}}
+{{% for data in datalist %}}
+{{ data.title }}
+
+{{% endfor %}}
+{{% endif %}}
 
 {% endblock %}
 

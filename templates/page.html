@@ -9,37 +9,113 @@
 {% block page_content %}
 {% include 'include/sidebar.html' %}
 <h1>
-    우리 고양이의 새 입맛을 찾아서
+  우리 고양이의 새 입맛을 찾아서
 </h1>
 <br>
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card w-1250">
-            <div class="card-body">
-              {% if data %}
-              {% for d in data %}
-                <h2>{{ d.title }}</h2>
-                <img src={{ d.img }} class="card-img" alt="img">
-              <p class="card-text">원재료 : {{d.content}}</p>
-              <p class="card-text">영양소 : {{d.nutrient}}</p>
-              <p class="card-text">{{ d.info }}</p>
-              <p class="card-text">{{ d.calory }}</p>
-              {% endfor %}
-              {% endif %}
-            </div>
-        </div>
-          </div>
-        </div><!-- {{data|safe}} -->
+{% if data %}
+{% for d in data %}
+
+<div class="card mb-12">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src={{ d.img }} class="card-img" alt="img">
     </div>
-</main><!-- /.container -->
-<!-- {{data.page}} -->
+    <div class="col-md-8">
+      <div class="card-body">
+        <h2>{{d.brand}} {{ d.title }}</h2>
+        <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
+        <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
+        <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
+        <p class="card-text"><strong>칼로리 :</strong> {{ d.calory }}</p>
+        <!-- <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="stars">
+                <span class="fa fa-star-o" data-rating="1"></span>
+                <span class="fa fa-star-o" data-rating="2"></span>
+                <span class="fa fa-star-o" data-rating="3"></span>
+                <span class="fa fa-star-o" data-rating="4"></span>
+                <span class="fa fa-star-o" data-rating="5"></span>
+                <input type="hidden" name="starrating" class="rating-value" value="2">
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="wrap">
+          <div class="stars">
+            <label class="rate">
+              <input type="radio" name="radio1" id="star1" value="star1">
+              <div class="face"></div>
+              <i class="far fa-star star one-star"></i>
+            </label>
+            <label class="rate">
+              <input type="radio" name="radio1" id="star2" value="star2">
+              <div class="face"></div>
+              <i class="far fa-star star two-star"></i>
+            </label>
+            <label class="rate">
+              <input type="radio" name="radio1" id="star3" value="star3">
+              <div class="face"></div>
+              <i class="far fa-star star three-star"></i>
+            </label>
+            <label class="rate">
+              <input type="radio" name="radio1" id="star4" value="star4">
+              <div class="face"></div>
+              <i class="far fa-star star four-star"></i>
+            </label>
+            <label class="rate">
+              <input type="radio" name="radio1" id="star5" value="star5">
+              <div class="face"></div>
+              <i class="far fa-star star five-star"></i>
+            </label>
+            <!-- {% if star %}
+            <h2>{{star}}</h2>
+            {% endif %} -->
 
-{% endblock %}
 
-{% block scripts %}
-{{ super() }}
+            <script>
+              $(function () {
+
+                $(document).on({
+                  mouseover: function (event) {
+                    $(this).find('.far').addClass('star-over');
+                    $(this).prevAll().find('.far').addClass('star-over');
+                  },
+                  mouseleave: function (event) {
+                    $(this).find('.far').removeClass('star-over');
+                    $(this).prevAll().find('.far').removeClass('star-over');
+                  }
+                }, '.rate');
+
+
+                $(document).on('click', '.rate', function () {
+                  if (!$(this).find('.star').hasClass('rate-active')) {
+                    $(this).siblings().find('.star').addClass('far').removeClass('fas rate-active');
+                    $(this).find('.star').addClass('rate-active fas').removeClass('far star-over');
+                    $(this).prevAll().find('.star').addClass('fas').removeClass('far star-over');
+                  } else {
+                    console.log('has');
+                  }
+                });
+
+              });
+
+
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add icon library -->
+    {% endfor %}
+    {% endif %}
+
+
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
 
 
 
-{% endblock %}
+    {% endblock %}

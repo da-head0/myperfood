@@ -4,6 +4,7 @@
 
 crawler/dynamo.py
 function/get_db.py
+db/get_db.py
 db/upload.py
 
 ### Python ###

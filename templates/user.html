@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+{% include 'include/sidebar.html' %}
+<h1>
+    유저 정보 페이지입니다.
+</h1>
+<br>
+{{ data }}
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-outline-secondary" type="button">CAT</button>
+    </div>
+    <input type="text" name="catname" class="form-control" placeholder="고양이 이름" aria-label="" aria-describedby="basic-addon1">
+  </div>
+  
+  <div class="input-group mb-3">
+    <select class="custom-select" id="inputGroupSelect02">
+      <option selected>Choose...</option>
+      <option value="0">1살 미만</option>
+      <option value="1">1살</option>
+      <option value="2">2살</option>
+      <option value="3">3살</option>
+      <option value="4">4살</option>
+      <option value="5">5살</option>
+      <option value="6">6살</option>
+      <option value="7">7살</option>
+      <option value="8">8살</option>
+      <option value="9">9살</option>
+      <option value="10">10살</option>
+      <option value="11">11살</option>
+      <option value="12">12살</option>
+      <option value="13">13살</option>
+      <option value="14">14살</option>
+      <option value="15">15살</option>
+      <option value="16">16살</option>
+      <option value="17">17살</option>
+      <option value="18">18살</option>
+    </select>
+  </div>
+  <div class="input-group-append">
+    <button class="btn btn-primary" type="submit" href="recommendation">사료 추천받기</button>
+</div>
+{% endblock %}
+<!-- /.container -->
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock %}

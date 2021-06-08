@@ -46,6 +46,7 @@ def compare_taste(cat_id):
     from math import log # IDF 계산을 위해
     docs = [fav, ss, nn]
     vocab = list(set(w for doc in df2['soup'].tolist() for w in doc.split()))
+    #vocab.sort() # 이거 안하니까 할때마다 랜덤이 됐다.
 
     N = len(docs)
 
@@ -127,4 +128,4 @@ def compare_taste(cat_id):
     return result.tolist()
 
 
-#compare_taste(1.0)
+#print(compare_taste(1))
