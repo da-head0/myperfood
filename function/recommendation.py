@@ -5,19 +5,20 @@ import json
 import numpy as np
 import sklearn
 from sklearn.decomposition import TruncatedSVD
+from db.get_db import cat_col, food_col
 
 def compare_taste(cat_id):
 
-    df = pd.read_csv('function/catfood_nodup.csv')
-    rating = pd.read_csv('function/rating.csv')
+    df = pd.DataFrame(food_col.find()) #pd.read_csv('function/catfood_nodup.csv')
+    rating = pd.DataFrame(cat_col.find())#pd.read_csv('function/rating.csv')
 
     df['soup'] = df['brand'] +' ' + df['title']  +' ' + df['classification']  +' ' + df['content']  +' ' + df['info']
     df['soup'] = df['soup'].astype(str) # 이래야 에러가 안남
 
-    cat_rating = rating[['고양이_ID','rating', 'title']]
+    cat_rating = rating[['cat_id','rating', 'title']]
     combined_foods_data = pd.merge(df,cat_rating, on='title', how='left') # 자동으로 inner가 되나.. 
 
-    rating_crosstab = combined_foods_data.pivot_table(values='rating', index='고양이_ID', columns='soup', fill_value=0) # 없는 값은 0으로 채우기.
+    rating_crosstab = combined_foods_data.pivot_table(values='rating', index='cat_id', columns='soup', fill_value=0) # 없는 값은 0으로 채우기.
 
     rating_crosstab['favorite'] = ""
     rating_crosstab['soso'] = ""
@@ -36,7 +37,7 @@ def compare_taste(cat_id):
                     pass
             except: pass
 
-    # 해당 고양이 ID 넣으면 됨. 1.0, 2.0 ... 
+    # 해당 cat_id 넣으면 됨. 1.0, 2.0 ... 
     fav = rating_crosstab.loc[cat_id,'favorite']
     ss = rating_crosstab.loc[cat_id,'soso']
     nn = rating_crosstab.loc[cat_id,'no']
@@ -46,7 +47,7 @@ def compare_taste(cat_id):
     from math import log # IDF 계산을 위해
     docs = [fav, ss, nn]
     vocab = list(set(w for doc in df2['soup'].tolist() for w in doc.split()))
-    #vocab.sort() # 이거 안하니까 할때마다 랜덤이 됐다.
+    vocab.sort() # 이거 안하니까 할때마다 랜덤이 됐다.
 
     N = len(docs)
 
@@ -75,7 +76,7 @@ def compare_taste(cat_id):
 
     tf_ = pd.DataFrame(result, columns = vocab, index=['fav', 'soso', 'no'])
     tfsum = tf_.T
-    tfsum['sum'] = ((tfsum['fav'] * 2) + (tfsum['soso'] * 1) + (tfsum['no'] * 0)) / 3
+    tfsum['sum'] = ((tfsum['fav'] * 5) + (tfsum['soso'] * 3) - (tfsum['no'] * 3)) / 5
     avgdtm = tfsum[['sum']]
     avgdtm = avgdtm.T
 
@@ -124,8 +125,8 @@ def compare_taste(cat_id):
 
     food_indices = [i[0] for i in sim_scores]
     
-    result = df2['title'].iloc[food_indices]
-    return result.tolist()
+    #result = df2['title'].iloc[food_indices]
+    return food_indices #result.tolist()
 
 
 #print(compare_taste(1))

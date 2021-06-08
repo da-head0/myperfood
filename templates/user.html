@@ -21,7 +21,10 @@
   </div>
   
   <div class="input-group mb-3">
-    <select class="custom-select" id="inputGroupSelect02">
+    <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary" type="button">나이</button>
+        </div>
+    <select class="custom-select" id="inputGroupSelect02" name = "catage">
       <option selected>Choose...</option>
       <option value="0">1살 미만</option>
       <option value="1">1살</option>
@@ -44,7 +47,7 @@
       <option value="18">18살</option>
     </select>
   </div>
-  <div class="input-group-append">
+  <div class="input-group">
     <button class="btn btn-primary" type="submit" href="recommendation">사료 추천받기</button>
 </div>
 {% endblock %}

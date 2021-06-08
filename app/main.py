@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
-from db.get_db import db, food_col, searchbytitle
+from db.get_db import db, food_col, cat_col, searchbytitle, countcatnum
 from function.recommendation import compare_taste
 import uvicorn
 from starlette.responses import RedirectResponse
@@ -25,7 +25,7 @@ app.add_middleware(
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.get("/main/", response_class=HTMLResponse)
+@app.get("/main", response_class=HTMLResponse)
 async def home(request: Request):
     datalist = []
     data = food_col.find()
@@ -35,21 +35,40 @@ async def home(request: Request):
 
 # @app.post("/main", response_class=HTMLResponse)
 # async def rating(request: Request, radio1 : str):
+#     datalist = []
+#     data = food_col.find()
+#     for d in data:
+#         datalist.append(d)
 #     if radio1:
-#         print(radio1)
-    #data = searchbyid(index)
-    #return templates.TemplateResponse("page.html", {"request": request, "data":data})
+#         return templates.TemplateResponse("page.html", {"request": request, "data":data, "star" : radio1})
 
-@app.get("recommendation/{cat_id}", response_class=HTMLResponse)
-async def recommend_food(request: Request, cat_id: int):
-    if cat_id:
-        data = compare_taste(cat_id)
-        return templates.TemplateResponse("recommend.html", {"request": request, "data":data})
 
-@app.get("/", response_class=HTMLResponse)
-async def userinfo(request: Request):
-    data = "어떤 고양이를 키우시나요?"
-    return templates.TemplateResponse("user.html", {"request": request, "data":data})
+@app.get("/recommendation", response_class=HTMLResponse)
+async def recommend_food(request: Request, cat_id: int=1.0):
+    datalist = compare_taste(cat_id)
+    findlist = []
+    catratedlist = []
+    # 이미 고양이가 평가한 리스트 만들기
+    catrated = cat_col.find({'cat_id':cat_id})
+    for cat in catrated:
+        catratedlist.append(cat['title'])
+    for d in datalist:
+        # 이미 고양이가 평가한것은 제외
+        if d in catratedlist:
+            pass
+        else:
+            # d가 이미 고른 타이틀이 아닌지 확인 필요
+            findfood = food_col.find({'index':d}) #{'title':title}
+            for f in findfood:
+                findlist.append(f)
+    return templates.TemplateResponse("recommend.html", {"request": request, "data":findlist})
+
+# @app.get("/", response_class=HTMLResponse)
+# async def userinfo(request: Request, catname : str = Form(...), catage : str = Form(...)):
+#     data = "어떤 고양이를 키우시나요?"
+#     catindex = countcatnum()
+#     cat_col.insert_one("cat_id":catindex, "cat_name":catname, "cat_age":catage)
+#     return templates.TemplateResponse("user.html", {"request": request, "data":data})
 
 @app.get("/mainsearch/", response_class=HTMLResponse)
 async def bytitle(request: Request, search_name: str):
