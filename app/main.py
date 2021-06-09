@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, Form, status, Body
+from fastapi import Depends, FastAPI, Request, Form, status, Body
+from fastapi import security
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -8,10 +9,13 @@ from function.recommendation import compare_taste
 import uvicorn
 from starlette.responses import RedirectResponse
 from starlette.requests import Request
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 
 
 app = FastAPI()
+
+security = HTTPBasic()
 
 origins = ["*"]
 app.add_middleware(
@@ -26,17 +30,18 @@ templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
-async def userinfo(request: Request, catname : str=None, catage : str=None):
+async def userinfo(request: Request, catname : str=None, catage : str=None): #credentials: HTTPBasicCredentials = Depends(security)): 
     data = "어떤 고양이를 키우시나요?"
     catindex = countcatnum()
-    existcat = rating_col.find_one({"cat_name":catname}) 
+    existcat = cat_col.find_one({"cat_name":catname}) 
+    #return {"고양이 이름": credentials.username, "고양이 나이": credentials.password}
     if not existcat:
         cat_col.insert_one({"cat_id":catindex, "cat_name":catname, "cat_age":catage})
-        message = "유저 정보가 등록되었습니다!"
+        message = "고양이 정보가 추가되었습니다"
         return templates.TemplateResponse("user.html", {"request": request, "data":data, "message" : message})
+    
     else: # 고양이를 중복 입력할 경우
-        # 이부분 안됨.. 왜 안될까..!
-        cat_col.update({"cat_id":catindex-1}, {"$set" : {"cat_name":catname, "cat_age":catage}})
+        cat_col.update({"cat_name":catname}, {"$set" : {"cat_id":catindex-1, "cat_age":catage}})
     return templates.TemplateResponse("user.html", {"request": request, "data":data})
 
 # @app.get("/main", response_class=HTMLResponse)
@@ -104,7 +109,11 @@ async def recommend_food(request: Request, cat_id: int=1.0):
     catlist = []
     cats = cat_col.find()
     for cat in cats:
-        catlist.append(cat)
+        reviewlist = []
+        catreviewcount = rating_col.find({'cat_id':cat['cat_id']})
+        for crw in catreviewcount:
+            reviewlist.append(crw)
+        catlist.append((cat, len(reviewlist)))
     return templates.TemplateResponse("catinfo.html", {"request": request, "cats":catlist})
 
 @app.get("/search/{title}", response_class=HTMLResponse)

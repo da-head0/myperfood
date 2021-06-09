@@ -9,18 +9,18 @@
 {% block page_content %}
 {% include 'include/sidebar.html' %}
 <h1>
-  입맛을 찾은 고양이 리스트
+  😸 입맛을 찾은 고양이 리스트
 </h1>
 <br>
 {% if cats %}
-{% for cat in cats %}
+{% for cat, num in cats %}
 <div class="container">
 <div class="card">
   <div class="row no-gutters">
     <div class="col-sm">
       <div class="card-body">
-        <h2>{{cat.cat_name}}</h2>
-        <a href=/recommendation?cat_id={{cat.cat_id}} class="stretched-link">입맛 확인</a>
+        <h2>{{cat.cat_name}}: {{num}}개 평가</h2>
+        <a href=/recommendation?cat_id={{cat.cat_id}} class="stretched-link">{{cat.cat_name}}의 입맛 확인하러 가기 🐾</a>
         </div>
         </div>
       </div>
