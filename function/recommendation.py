@@ -5,12 +5,12 @@ import json
 import numpy as np
 import sklearn
 from sklearn.decomposition import TruncatedSVD
-from db.get_db import cat_col, food_col
+from db.get_db import rating_col, food_col
 
 def compare_taste(cat_id):
 
     df = pd.DataFrame(food_col.find()) #pd.read_csv('function/catfood_nodup.csv')
-    rating = pd.DataFrame(cat_col.find())#pd.read_csv('function/rating.csv')
+    rating = pd.DataFrame(rating_col.find())#pd.read_csv('function/rating.csv')
 
     df['soup'] = df['brand'] +' ' + df['title']  +' ' + df['classification']  +' ' + df['content']  +' ' + df['info']
     df['soup'] = df['soup'].astype(str) # 이래야 에러가 안남
@@ -121,7 +121,7 @@ def compare_taste(cat_id):
         sim_scores.append((i,cos_sim(avgdtm, tf_2.iloc[i])))
 
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:11]
+    sim_scores = sim_scores[1:12]
 
     food_indices = [i[0] for i in sim_scores]
     

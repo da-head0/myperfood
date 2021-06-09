@@ -13,6 +13,7 @@
 </h1>
 <br>
 {{ data }}
+<form>
 <div class="input-group mb-3">
     <div class="input-group-prepend">
       <button class="btn btn-outline-secondary" type="button">CAT</button>
@@ -46,11 +47,14 @@
       <option value="17">17살</option>
       <option value="18">18살</option>
     </select>
-  </div>
-  <div class="input-group">
-    <button class="btn btn-primary" type="submit" href="recommendation">사료 추천받기</button>
+    <button class="btn btn-primary" type="submit">유저 등록</button>
 </div>
+{% if message %}
+{{ message }}
+{% endif %}
+</form>
 {% endblock %}
+
 <!-- /.container -->
 
 {% block scripts %}

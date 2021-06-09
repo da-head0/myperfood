@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+{% include 'include/sidebar.html' %}
+<h1>
+  입맛을 찾은 고양이 리스트
+</h1>
+<br>
+{% if cats %}
+{% for cat in cats %}
+
+<div class="card mb-12">
+  <div class="row no-gutters">
+    <div class="col-md-8">
+      <div class="card-body">
+        <h2>{{cat.cat_name}}</h2>
+        <a href=/recommendation?cat_id={{cat.cat_id}} class="card-link">입맛 확인</a>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add icon library -->
+    {% endfor %}
+    {% endif %}
+
+
+    {% endblock %}
+
+    {% block scripts %}
+    {{ super() }}
+
+
+
+    {% endblock %}
