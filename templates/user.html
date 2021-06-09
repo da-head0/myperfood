@@ -9,16 +9,15 @@
 {% block page_content %}
 {% include 'include/sidebar.html' %}
 <h1>
-    유저 정보 페이지입니다.
+  😺 고양이 등록 페이지입니다.
 </h1>
 <br>
-{{ data }}
 <form>
 <div class="input-group mb-3">
     <div class="input-group-prepend">
       <button class="btn btn-outline-secondary" type="button">CAT</button>
     </div>
-    <input type="text" name="catname" class="form-control" placeholder="고양이 이름" aria-label="" aria-describedby="basic-addon1">
+    <input type="text" name="catname" class="form-control" placeholder="고양이의 이름을 입력하세요" aria-label="" aria-describedby="basic-addon1">
   </div>
   
   <div class="input-group mb-3">
@@ -26,7 +25,7 @@
         <button class="btn btn-outline-secondary" type="button">나이</button>
         </div>
     <select class="custom-select" id="inputGroupSelect02" name = "catage">
-      <option selected>Choose...</option>
+      <option selected>고양이의 나이를 알려주세요</option>
       <option value="0">1살 미만</option>
       <option value="1">1살</option>
       <option value="2">2살</option>
@@ -47,11 +46,16 @@
       <option value="17">17살</option>
       <option value="18">18살</option>
     </select>
-    <button class="btn btn-primary" type="submit">유저 등록</button>
+    <button class="btn btn-outline-secondary" type="submit" data-toggle="modal" data-target="#myModal">고양이 등록</button>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+          <div class="alert alert-success alert-dismissible">
+              <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+              <strong>추가!</strong> 고양이 정보가 추가되었습니다.                  
+            </div>
+          </div>
+      </div>
 </div>
-{% if message %}
-{{ message }}
-{% endif %}
 </form>
 {% endblock %}
 

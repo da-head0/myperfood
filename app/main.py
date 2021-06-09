@@ -29,10 +29,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def userinfo(request: Request, catname : str=None, catage : str=None):
     data = "어떤 고양이를 키우시나요?"
     catindex = countcatnum()
-    if catname is not None:
+    existcat = rating_col.find_one({"cat_name":catname}) 
+    if not existcat:
         cat_col.insert_one({"cat_id":catindex, "cat_name":catname, "cat_age":catage})
         message = "유저 정보가 등록되었습니다!"
         return templates.TemplateResponse("user.html", {"request": request, "data":data, "message" : message})
+    else: # 고양이를 중복 입력할 경우
+        # 이부분 안됨.. 왜 안될까..!
+        cat_col.update({"cat_id":catindex-1}, {"$set" : {"cat_name":catname, "cat_age":catage}})
     return templates.TemplateResponse("user.html", {"request": request, "data":data})
 
 # @app.get("/main", response_class=HTMLResponse)
@@ -103,21 +107,7 @@ async def recommend_food(request: Request, cat_id: int=1.0):
         catlist.append(cat)
     return templates.TemplateResponse("catinfo.html", {"request": request, "cats":catlist})
 
-@app.get("/mainsearch/", response_class=HTMLResponse)
-async def bytitle(request: Request, search_name: str):
-    if search_name:
-        data = searchbytitle(search_name)
-        return templates.TemplateResponse("page.html", {"request": request, "data":data})
-    #url = f'http://127.0.0.1:8000/search?{searchtitle}'
-
 @app.get("/search/{title}", response_class=HTMLResponse)
 async def bytitle(request: Request, title: str):
     data = searchbytitle(title)
     return templates.TemplateResponse("page.html", {"request": request, "data":data})
-
-
-# @app.get("/id/{index}", response_class=HTMLResponse)
-# async def searchbyid(request: Request, index: int):
-#     data = searchbyid(index)
-#     return templates.TemplateResponse("page.html", {"request": request, "data":data})
-

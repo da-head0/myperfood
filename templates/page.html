@@ -9,43 +9,38 @@
 {% block page_content %}
 {% include 'include/sidebar.html' %}
 <h1>
-  우리 고양이의 새 입맛을 찾아서
+  🥩🐈 우리 고양이의 새 입맛을 찾아서
 </h1>
 <br>
 {% if data %}
 {% for d in data %}
 <form>
-<div class="card mb-12">
+<div class="card">
   <div class="row no-gutters">
     <div class="col-md-4">
       <img src={{ d.img }} class="card-img" alt="img">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h2>{{d.brand}} {{d.title}}</h2> 
+        <h2>{{d.brand}}</h2> 
         <!-- <div class="col-sm-10">
           <input name = "foodtitle" type="text" value={{ d.title }} >-->
           <!-- <input class="form-control" type="text" placeholder={{d.title}} readonly> -->
         <!--</div> -->
         <!-- <h2>{{d.brand}}</h2> <h2 id = "foodtitle">{{ d.title }}</h2> -->
-        <script> var foodname = {{ d.title }}; </script>
-        <script>
-          function getData() {
-  return axios.get(foodname);
-}
-(async () => {
-   console.log(await getData())
-})()
-        </script>
+        <select type="hidden" class="form-control form-control-lg" name="foodtitle" id="foodtitle">
+          <option>{{ d.title }}</option>
+        </select>
+        <br>
         <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
         <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
         <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
         <p class="card-text"><strong>칼로리 :</strong> {{ d.calory }}</p>
+        <!-- <div class="input-group mb-3">
+          <div class="input-group-prepend">
         <div class="form-group">
-          <select class="form-control form-control-sm" name="foodtitle">
-            <option>{{ d.title }}</option>
-          </select>
           <label for="exampleFormControlSelect1">고양이가 얼마나 좋아했나요?</label>
+          </div>
           <select class="form-control" name="stars">
             <option>1</option>
             <option>2</option>
@@ -53,14 +48,39 @@
             <option>4</option>
             <option>5</option>
           </select>
-          <button type="submit" href = "/main" class="btn btn-primary" data-toggle="modal" data-target="#myModal">평가</button>
+          <button type="submit" href = "/main" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right;">평가</button>
           <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
                 <div class="alert alert-success alert-dismissible">
                     <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
                     <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.                  
                   </div>
+                  </div>
             </div>
+          </div>
+        </div> -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button">고양이 선호도</button>
+          </div>
+          <select class="custom-select" id="inputGroupSelect03" name="stars">
+            <option selected>선택하세요</option>
+            <option value="1">😹 입에도 안 대요</option>
+            <option value="2">😿 먹긴 하는데 남겨요</option>
+            <option value="3">😺 그럭저럭 먹어요</option>
+            <option value="4">😽 잘 먹는 편이에요</option>
+            <option value="5">😻 완전 좋아해요</option>
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" data-toggle="modal" data-target="#myModal">입력</button>
+            <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
+                  <div class="alert alert-success alert-dismissible">
+                      <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                      <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.                  
+                    </div>
+                  </div>
+              </div>
           </div>
         </div>
       {% if formitem %}
