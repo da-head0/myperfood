@@ -15,7 +15,9 @@ collection = 'food'
 client = MongoClient(f"mongodb+srv://{user}:{password}@{host}/{database_name}?retryWrites=true&w=majority")
 
 db = client.cat
-
+food_col = db.food
+rating_col = db.rating
+cat_col = db.user
 
 # class PyObjectId(ObjectId):
 
@@ -52,6 +54,17 @@ db = client.cat
 #     성분등록번호 : str
 #     img : str
 
+class Rating(BaseModel):
+    cat_id: int
+    title : str
+    rating : int
+
+class User(BaseModel):
+    cat_id: int
+    cat_name : str
+    cat_age : str
+
+
 #     class Config:
 #         arbitrary_types_allowed = True
 #         json_encoders = {
@@ -78,7 +91,7 @@ db = client.cat
 
 def searchbytitle(title):
     foodlist = []
-    findfood = db.food.find({'title':title}) #{'title':title}
+    findfood = food_col.find({'title':title}) #{'title':title}
     for f in findfood:
         foodlist.append(f)
     return foodlist
@@ -87,7 +100,14 @@ def searchbytitle(title):
 
 def searchbyid(index):
     foodlist = []
-    findfood = db.food.find({'index':index})
+    findfood = food_col.find({'index':index})
     for f in findfood:
         foodlist.append(f)
     return foodlist
+
+def countcatnum():
+    count = 0
+    catlist = cat_col.find()
+    for cat in catlist:
+        count += 1
+    return count + 1

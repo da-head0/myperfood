@@ -22,24 +22,51 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h2>{{d.brand}}</h2> <h2 name = 'foodname'>{{ d.title }}</h2>
+        <h2>{{d.brand}} {{d.title}}</h2> 
+        <!-- <div class="col-sm-10">
+          <input name = "foodtitle" type="text" value={{ d.title }} >-->
+          <!-- <input class="form-control" type="text" placeholder={{d.title}} readonly> -->
+        <!--</div> -->
+        <!-- <h2>{{d.brand}}</h2> <h2 id = "foodtitle">{{ d.title }}</h2> -->
+        <script> var foodname = {{ d.title }}; </script>
+        <script>
+          function getData() {
+  return axios.get(foodname);
+}
+(async () => {
+   console.log(await getData())
+})()
+        </script>
         <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
         <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
         <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
         <p class="card-text"><strong>칼로리 :</strong> {{ d.calory }}</p>
-        <!-- <div class="form-group"> -->
-          <!-- <label for="exampleFormControlSelect1">Example select</label>
-          <select class="form-control" name="radio1">
+        <div class="form-group">
+          <select class="form-control form-control-sm" name="foodtitle">
+            <option>{{ d.title }}</option>
+          </select>
+          <label for="exampleFormControlSelect1">고양이가 얼마나 좋아했나요?</label>
+          <select class="form-control" name="stars">
             <option>1</option>
             <option>2</option>
             <option>3</option>
             <option>4</option>
             <option>5</option>
           </select>
-          <button type="submit" class="btn btn-primary">평가</button>
-        </form>
-        </div> -->
-        <div class="wrap">
+          <button type="submit" href = "/main" class="btn btn-primary" data-toggle="modal" data-target="#myModal">평가</button>
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="alert alert-success alert-dismissible">
+                    <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                    <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.                  
+                  </div>
+            </div>
+          </div>
+        </div>
+      {% if formitem %}
+      {{ formitem }}
+    {% endif %}
+        <!-- <div class="wrap">
           <div class="stars">
             <label class="rate">
               <input type="radio" name="radio1" id="star1" value="1">
@@ -94,19 +121,20 @@
               });
 
 
-            </script>
-            </form>
-            <!-- {% if message %}
-              {{ message}}
-            {% endif %} -->
+            </script> -->
           </div>
         </div>
       </div>
     </div>
+  </form>
     <!-- Add icon library -->
     {% endfor %}
     {% endif %}
-
+    <!-- {% if message %}
+    <div class="alert alert-info">
+      <p><strong>{{ message }}</strong></p>
+    </div>
+    {% endif %} -->
 
     {% endblock %}
 

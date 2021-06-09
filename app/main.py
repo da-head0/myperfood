@@ -7,6 +7,8 @@ from db.get_db import db, food_col, rating_col, cat_col, searchbytitle, countcat
 from function.recommendation import compare_taste
 import uvicorn
 from starlette.responses import RedirectResponse
+from starlette.requests import Request
+
 
 
 app = FastAPI()
@@ -29,7 +31,7 @@ async def userinfo(request: Request, catname : str=None, catage : str=None):
     catindex = countcatnum()
     if catname is not None:
         cat_col.insert_one({"cat_id":catindex, "cat_name":catname, "cat_age":catage})
-        message = "유저 정보가 등록되었습니다"
+        message = "유저 정보가 등록되었습니다!"
         return templates.TemplateResponse("user.html", {"request": request, "data":data, "message" : message})
     return templates.TemplateResponse("user.html", {"request": request, "data":data})
 
@@ -40,21 +42,38 @@ async def userinfo(request: Request, catname : str=None, catage : str=None):
 #     for d in data:
 #         datalist.append(d) 
 #     return templates.TemplateResponse("page.html", {"request": request, "data":datalist})
+from pydantic import BaseModel
+
+class FoodItem(BaseModel):
+    title: str
+
+# @app.get("/main", response_class=HTMLResponse)
+# async def rating(request: Request):
+#     #data = "고양이가 좋아하는 사료, 싫어하는 사료를 체크해 보세요"
+#     datalist = []
+#     data = food_col.find()
+#     for d in data:
+#         datalist.append(d)
+#     return templates.TemplateResponse("page.html", {"request": request, "data":datalist})
 
 @app.get("/main", response_class=HTMLResponse)
-async def rating(request: Request, foodname : str = None, radio1 : int=None):
-    #data = "고양이가 좋아하는 사료, 싫어하는 사료를 체크해 보세요"
+async def rating(request: Request,foodtitle: str = None, stars : int=None):
+    data = "고양이가 좋아하는 사료, 싫어하는 사료를 체크해 보세요"
     datalist = []
     data = food_col.find()
     for d in data:
         datalist.append(d)
-    # if radio1 is not None:
-    #     catindex = countcatnum() # 일단.. 가장 이전 유저로 한다. 바꿔야 함.
-    #     rating_col.insert_one({"cat_id":catindex, "title":foodname, "rating":radio1})
-    #     message = "선호 정보가 등록되었습니다"
-    #     return templates.TemplateResponse("page.html", {"request": request, "data":datalist, "message" : message})
+    if stars:
+        foodtitle = foodtitle
+        catindex = countcatnum() # 일단.. 가장 이전 유저로 한다. 바꿔야 함.
+        existitem = rating_col.find_one({"cat_id":catindex, "title":foodtitle}) 
+        if not existitem:
+            rating_col.insert_one({"cat_id":catindex, "title":foodtitle, "rating":stars})
+            message = "선호 정보가 등록되었습니다"
+            return templates.TemplateResponse("page.html", {"request": request, "data":datalist, "message" : message})
+        else:
+            rating_col.update_one({"cat_id":catindex, "title":foodtitle}, {"$set" : {"rating":stars}})
     return templates.TemplateResponse("page.html", {"request": request, "data":datalist})
-
 
 @app.get("/recommendation", response_class=HTMLResponse)
 async def recommend_food(request: Request, cat_id: int=1.0):
@@ -102,7 +121,3 @@ async def bytitle(request: Request, title: str):
 #     data = searchbyid(index)
 #     return templates.TemplateResponse("page.html", {"request": request, "data":data})
 
-@app.get("/page/{page_name}", response_class=HTMLResponse)
-async def show_page(request: Request, page_name: str):
-    data = openfile(page_name+".md")
-    return templates.TemplateResponse("page.html", {"request": request, "data":data})

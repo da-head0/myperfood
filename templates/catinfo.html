@@ -14,17 +14,18 @@
 <br>
 {% if cats %}
 {% for cat in cats %}
-
-<div class="card mb-12">
+<div class="container">
+<div class="card">
   <div class="row no-gutters">
-    <div class="col-md-8">
+    <div class="col-sm">
       <div class="card-body">
         <h2>{{cat.cat_name}}</h2>
-        <a href=/recommendation?cat_id={{cat.cat_id}} class="card-link">입맛 확인</a>
+        <a href=/recommendation?cat_id={{cat.cat_id}} class="stretched-link">입맛 확인</a>
         </div>
         </div>
       </div>
     </div>
+  </div>
     <!-- Add icon library -->
     {% endfor %}
     {% endif %}
