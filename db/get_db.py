@@ -31,10 +31,6 @@ class User(BaseModel):
     cat_age : str
 
 def searchbytitle(title):
-    text='주식캔 연어왈 연어좋아'
-    # p = re.compile(f'.*{title}.*')
-    # m = p.match(text)
-    # m.group()
     foodlist = []
     findfood = food_col.find({"title":{'$regex':f'.*{title}.*'}}) #{'title':title}
     for f in findfood:
