@@ -117,9 +117,17 @@ async def recommend_food(request: Request, cat_id: int=1.0):
     return templates.TemplateResponse("catinfo.html", {"request": request, "cats":catlist})
 
 @app.get("/search", response_class=HTMLResponse)
-async def bytitle(request: Request, title: str , foodtitle: str = None, stars : int=None):
+async def bytitle(request: Request, title: str =None, foodtitle: str = None, stars : int=None):
     data = searchbytitle(title)
-    return templates.TemplateResponse("page.html", {"request": request, "data":data})
+    cat_id = countcatnum() - 1
+    # 평가를 바꿀 경우
+    existitem = rating_col.find_one({"cat_id":cat_id, "title":foodtitle}) 
+    if not existitem:
+        rating_col.insert_one({"cat_id":cat_id, "title":foodtitle, "rating":stars})
+        return templates.TemplateResponse("rated.html", {"request": request, "data":data})
+    else:
+        rating_col.update_one({"cat_id":cat_id, "title":foodtitle}, {"$set" : {"rating":stars}})
+    return templates.TemplateResponse("rated.html", {"request": request, "data":data})
 
 @app.get("/itemlist", response_class=HTMLResponse)
 async def bytitle(request: Request,foodtitle: str = None, stars : int=None):
@@ -130,11 +138,6 @@ async def bytitle(request: Request,foodtitle: str = None, stars : int=None):
         ratedlist.append(rated)
     
     # 평가를 바꿀 경우
-    existitem = rating_col.find_one({"cat_id":cat_id, "title":foodtitle}) 
-    if not existitem:
-        rating_col.insert_one({"cat_id":cat_id, "title":foodtitle, "rating":stars})
-        message = "선호 정보가 등록되었습니다"
-        return templates.TemplateResponse("page.html", {"request": request, "data":ratedlist, "message" : message})
-    else:
+    if stars:
         rating_col.update_one({"cat_id":cat_id, "title":foodtitle}, {"$set" : {"rating":stars}})
     return templates.TemplateResponse("rated.html", {"request": request, "data":ratedlist})
