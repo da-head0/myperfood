@@ -12,6 +12,11 @@
   😺 고양이 등록 페이지입니다.
 </h1>
 <br>
+    {% if message %}
+    <div class="alert alert-danger">
+      <p><strong>{{ message }}</strong></p>
+    </div>
+    {% endif %}
 <form>
 <div class="input-group mb-3">
     <div class="input-group-prepend">
