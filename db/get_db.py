@@ -5,6 +5,7 @@ import requests
 from pydantic import BaseModel, Field
 from bson import ObjectId
 from typing import Optional
+import re
 
 host = 'cluster0.xc44g.mongodb.net'
 user = 'aimb'
@@ -19,41 +20,6 @@ food_col = db.food
 rating_col = db.rating
 cat_col = db.user
 
-# class PyObjectId(ObjectId):
-
-#     @classmethod
-#     def __get_validators__(cls):
-#         yield cls.validate
-
-#     @classmethod
-#     def validate(cls, v):
-#         if not ObjectId.is_valid(v):
-#             raise ValueError('Invalid objectid')
-#         return ObjectId(v)
-
-#     @classmethod
-#     def __modify_schema__(cls, field_schema):
-#         field_schema.update(type='string')
-
-# class Food(BaseModel):
-#     id: Optional[PyObjectId] = Field(alias='_id')
-#     uuid : str
-#     category : str
-#     brand : str
-#     title : str
-#     age : str
-#     classification : str
-#     content : str
-#     nutrient : str
-#     info : str
-#     gram : str
-#     calory : str
-#     ingredient : str
-#     detail : str
-#     from_company : str
-#     성분등록번호 : str
-#     img : str
-
 class Rating(BaseModel):
     cat_id: int
     title : str
@@ -64,34 +30,13 @@ class User(BaseModel):
     cat_name : str
     cat_age : str
 
-
-#     class Config:
-#         arbitrary_types_allowed = True
-#         json_encoders = {
-#             ObjectId: str
-#         }
-
-# class Food(Document):
-#     uuid = StringField()
-#     category = StringField()
-#     brand = StringField()
-#     title = StringField()
-#     age = StringField()
-#     classification = StringField()
-#     content = StringField()
-#     nutrient = StringField()
-#     info = StringField()
-#     gram = StringField()
-#     calory = StringField()
-#     ingredient = StringField()
-#     detail = StringField()
-#     from_company = StringField()
-#     성분등록번호 = StringField()
-#     img = StringField()
-
 def searchbytitle(title):
+    text='주식캔 연어왈 연어좋아'
+    # p = re.compile(f'.*{title}.*')
+    # m = p.match(text)
+    # m.group()
     foodlist = []
-    findfood = food_col.find({'title':title}) #{'title':title}
+    findfood = food_col.find({"title":{'$regex':f'.*{title}.*'}}) #{'title':title}
     for f in findfood:
         foodlist.append(f)
     return foodlist
