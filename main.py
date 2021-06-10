@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, Request, Form, status, Body, HTTPException
+from fastapi import Depends, FastAPI, Request, Form, status, Body
 from fastapi import security
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,8 +15,6 @@ from pydantic import BaseModel
 
 
 app = FastAPI()
-
-security = HTTPBasic()
 
 origins = ["*"]
 app.add_middleware(
