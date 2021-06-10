@@ -8,13 +8,11 @@
 
 {% block page_content %}
 {% include 'include/sidebar.html' %}
-<div class="btn">
-<h1>
-  🥩🐈 우리 고양이의 새 입맛을 찾아서
-</h1>
-  <button class="btn btn-outline-primary" href="recommendation" role="button">평가 후 추천받기</a>
-  </button>
-  </div>
+<div id="main">
+<h1>🥩🐈 우리 고양이의 새 입맛을 찾아서 <a class="btn btn-outline-primary" href="recommendation" role="button">평가 후 추천받기</a>
+</h1>  
+</div>
+<br>
   {% if message %}
   <div class="alert alert-danger">
     <p><strong>{{ message }}</strong></p>

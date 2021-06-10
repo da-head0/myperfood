@@ -8,11 +8,10 @@
 
 {% block page_content %}
 {% include 'include/sidebar.html' %}
-<h1>
-  {{cat.cat_name}}의 입맛에 따른 새 사료 추천 결과입니다.
-</h1>
-<p>다른 고양이들이 좋아한 사료, {{cat.cat_name}}의 입맛을 고려한 사료가 추천되었습니다</p>
-<p>건사료의 경우, 본품을 구매하기 전에 꼭 샘플을 구매하시어 테스트해보세요</p>
+<h1>🐾 {{cat.cat_name}}의 입맛에 따른 새 사료 추천 결과입니다 🐾</h1>
+<br>
+<p>😽 다른 고양이들이 좋아한 사료, {{cat.cat_name}}의 입맛을 고려한 사료가 추천되었습니다.</p>
+<p>❕ 건사료의 경우, 본품을 구매하기 전에 꼭 샘플로 테스트해보세요.</p>
 <br>
 {% if data %}
 {% for d in data %}
@@ -23,7 +22,9 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h2>{{d.brand}} {{ d.title }}</h2>
+        <h2>{{d.brand}} </h2>
+        <h2>{{ d.title }}</h2>
+        <br>
         <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
         <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
         <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
