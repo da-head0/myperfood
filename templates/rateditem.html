@@ -18,12 +18,12 @@
     <div class="card">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src={{ d.img }} class="card-img" alt="img">
+                <img name = "imgname" src={{ d.img }} class="card-img" alt="img">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                     <h2>{{d.brand}}</h2>
-                    <select type="hidden" class="form-control form-control-lg" name="foodtitle" id="foodtitle">
+                    <select class="form-control form-control-lg" name="foodtitle" id="foodtitle">
                         <option>{{ d.title }}</option>
                     </select>
                     <br>
@@ -50,7 +50,7 @@
                                 <div class="modal-dialog">
                                     <div class="alert alert-success alert-dismissible">
                                         <a class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                                        <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.
+                                        <strong>수정!</strong> 사료 선호도 정보가 수정되었습니다.
                                     </div>
                                 </div>
                             </div>
@@ -76,11 +76,6 @@
         </div>
     </div>
 </div>
-<!-- {% if message %}
-    <div class="alert alert-info">
-      <p><strong>{{ message }}</strong></p>
-    </div>
-    {% endif %} -->
 
 {% endblock %}
 

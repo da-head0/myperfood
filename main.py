@@ -1,18 +1,19 @@
-from fastapi import Depends, FastAPI, Request, Form, status, Body
+from pymongo.uri_parser import DEFAULT_PORT
+from db.get_db import db, food_col, rating_col, cat_col, searchbytitle, countcatnum, Rating, User
+from fastapi import Depends, FastAPI, Request, Form, status, Body, HTTPException
 from fastapi import security
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
-from db.get_db import db, food_col, rating_col, cat_col, searchbytitle, countcatnum, Rating, User
 from function.recommendation import compare_taste
-import uvicorn
 from starlette.responses import RedirectResponse, Response
 from starlette.requests import Request
-import os
+import uvicorn
 from datetime import timedelta
 from pydantic import BaseModel
-
+import os
+import uuid
 
 app = FastAPI()
 
@@ -28,6 +29,7 @@ app.add_middleware(
 templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 @app.get("/")
 async def userinfo(request: Request, catname : str = None, catage : str=None): #credentials: HTTPBasicCredentials = Depends(security)): 
@@ -54,7 +56,7 @@ async def rating(request: Request,foodtitle: str = None, stars : int=None):
         datalist.append(d)
     if stars and foodtitle:
         foodtitle = foodtitle
-        catindex = countcatnum() # 일단.. 가장 이전 유저로 한다. 바꿔야 함.
+        catindex = countcatnum() - 1 # 일단.. 가장 이전 유저로 한다. 바꿔야 함.
         existitem = rating_col.find_one({"cat_id":catindex, "title":foodtitle}) 
         if not existitem:
             rating_col.insert_one({"cat_id":catindex, "title":foodtitle, "rating":stars})
@@ -120,4 +122,4 @@ async def bytitle(request: Request,foodtitle: str = None, stars : int=None):
     # 평가를 바꿀 경우
     if stars:
         rating_col.update_one({"cat_id":cat_id, "title":foodtitle}, {"$set" : {"rating":stars}})
-    return templates.TemplateResponse("rated.html", {"request": request, "data":ratedlist})
+    return templates.TemplateResponse("rateditem.html", {"request": request, "data":ratedlist})
