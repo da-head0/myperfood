@@ -7,11 +7,11 @@ from bson import ObjectId
 from typing import Optional
 import re
 
-host = 'cluster0.xc44g.mongodb.net'
-user = 'aimb'
-password = 'mimomimo'
-database_name = 'cat'
-collection = 'food'
+host = ''
+user = ''
+password = ''
+database_name = ''
+collection = ''
 
 client = MongoClient(f"mongodb+srv://{user}:{password}@{host}/{database_name}?retryWrites=true&w=majority")
 
@@ -36,8 +36,6 @@ def searchbytitle(title):
     for f in findfood:
         foodlist.append(f)
     return foodlist
-    # for food in Food.objects:
-    #     return food
 
 def searchbyid(index):
     foodlist = []

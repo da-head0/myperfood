@@ -9,164 +9,74 @@
 {% block page_content %}
 {% include 'include/sidebar.html' %}
 <div id="main">
-<h1>🥩🐈 우리 고양이의 새 입맛을 찾아서 <a class="btn btn-outline-primary" href="recommendation" role="button">평가 후 추천받기</a>
-</h1>  
+  <h1>🥩🐈 우리 고양이의 새 입맛을 찾아서 <a class="btn btn-outline-primary" href="recommendation" role="button">평가 후 추천받기</a>
+  </h1>
 </div>
 <br>
-  {% if message %}
-  <div class="alert alert-danger">
-    <p><strong>{{ message }}</strong></p>
-  </div>
-  {% endif %}
+{% if message %}
+<div class="alert alert-danger">
+  <p><strong>{{ message }}</strong></p>
+</div>
+{% endif %}
 {% if data %}
 {% for d in data %}
 <form>
-<div class="card">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src={{ d.img }} class="card-img" alt="img">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h2>{{d.brand}}</h2> 
-        <!-- <div class="col-sm-10">
-          <input name = "foodtitle" type="text" value={{ d.title }} >-->
-          <!-- <input class="form-control" type="text" placeholder={{d.title}} readonly> -->
-        <!--</div> -->
-        <!-- <h2>{{d.brand}}</h2> <h2 id = "foodtitle">{{ d.title }}</h2> -->
-        <select type="hidden" class="form-control form-control-lg" name="foodtitle" id="foodtitle">
-          <option>{{ d.title }}</option>
-        </select>
-        <br>
-        <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
-        <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
-        <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
-        <p class="card-text"><strong>칼로리 :</strong> {{ d.calory }}</p>
-        <!-- <div class="input-group mb-3">
-          <div class="input-group-prepend">
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">고양이가 얼마나 좋아했나요?</label>
-          </div>
-          <select class="form-control" name="stars">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+  <div class="card">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src={{ d.img }} class="card-img" alt="img">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2>{{d.brand}}</h2>
+          <select type="hidden" class="form-control form-control-lg" name="foodtitle" id="foodtitle">
+            <option>{{ d.title }}</option>
           </select>
-          <button type="submit" href = "/main" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right;">평가</button>
-          <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-                <div class="alert alert-success alert-dismissible">
-                    <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                    <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.                  
+          <br>
+          <p class="card-text"><strong>원재료 :</strong> {{d.content}}</p>
+          <p class="card-text"><strong>영양소 :</strong> {{d.nutrient}}</p>
+          <p class="card-text"><strong>정보 :</strong> {{ d.info }}</p>
+          <p class="card-text"><strong>칼로리 :</strong> {{ d.calory }}</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button">고양이 선호도</button>
+            </div>
+            <select class="custom-select" id="inputGroupSelect03" name="stars">
+              <option selected>🐱 선택하세요</option>
+              <option value="1">😹 입에도 안 대요</option>
+              <option value="2">😿 먹긴 하는데 남겨요</option>
+              <option value="3">😺 그럭저럭 먹어요</option>
+              <option value="4">😽 잘 먹는 편이에요</option>
+              <option value="5">😻 완전 좋아해요</option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit" data-toggle="modal"
+                data-target="#myModal">입력</button>
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                  <div class="alert alert-success alert-dismissible">
+                    <a class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                    <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.
                   </div>
-                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div> -->
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary" type="button">고양이 선호도</button>
-          </div>
-          <select class="custom-select" id="inputGroupSelect03" name="stars">
-            <option selected>🐱 선택하세요</option>
-            <option value="1">😹 입에도 안 대요</option>
-            <option value="2">😿 먹긴 하는데 남겨요</option>
-            <option value="3">😺 그럭저럭 먹어요</option>
-            <option value="4">😽 잘 먹는 편이에요</option>
-            <option value="5">😻 완전 좋아해요</option>
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="submit" data-toggle="modal" data-target="#myModal">입력</button>
-            <div class="modal fade" id="myModal" role="dialog">
-              <div class="modal-dialog">
-                  <div class="alert alert-success alert-dismissible">
-                      <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                      <strong>추가!</strong> 사료 선호도 정보가 추가되었습니다.                  
-                    </div>
-                  </div>
-              </div>
-          </div>
-        </div>
-      {% if formitem %}
-      {{ formitem }}
-    {% endif %}
-        <!-- <div class="wrap">
-          <div class="stars">
-            <label class="rate">
-              <input type="radio" name="radio1" id="star1" value="1">
-              <div class="face"></div>
-              <i class="far fa-star star one-star"></i>
-            </label>
-            <label class="rate">
-              <input type="radio" name="radio1" id="star2" value="2">
-              <div class="face"></div>
-              <i class="far fa-star star two-star"></i>
-            </label>
-            <label class="rate">
-              <input type="radio" name="radio1" id="star3" value="3">
-              <div class="face"></div>
-              <i class="far fa-star star three-star"></i>
-            </label>
-            <label class="rate">
-              <input type="radio" name="radio1" id="star4" value="4">
-              <div class="face"></div>
-              <i class="far fa-star star four-star"></i>
-            </label>
-            <label class="rate">
-              <input type="radio" name="radio1" id="star5" value="5">
-              <div class="face"></div>
-              <i class="far fa-star star five-star"></i>
-            </label>
-            <script>
-              $(function () {
-
-                $(document).on({
-                  mouseover: function (event) {
-                    $(this).find('.far').addClass('star-over');
-                    $(this).prevAll().find('.far').addClass('star-over');
-                  },
-                  mouseleave: function (event) {
-                    $(this).find('.far').removeClass('star-over');
-                    $(this).prevAll().find('.far').removeClass('star-over');
-                  }
-                }, '.rate');
-
-
-                $(document).on('click', '.rate', function () {
-                  if (!$(this).find('.star').hasClass('rate-active')) {
-                    $(this).siblings().find('.star').addClass('far').removeClass('fas rate-active');
-                    $(this).find('.star').addClass('rate-active fas').removeClass('far star-over');
-                    $(this).prevAll().find('.star').addClass('fas').removeClass('far star-over');
-                  } else {
-                    console.log('has');
-                  }
-                });
-
-              });
-
-
-            </script> -->
-          </div>
+          {% if formitem %}
+          {{ formitem }}
+          {% endif %}
         </div>
       </div>
     </div>
-  </form>
-    <!-- Add icon library -->
-    {% endfor %}
-    {% endif %}
-    <!-- {% if message %}
-    <div class="alert alert-info">
-      <p><strong>{{ message }}</strong></p>
-    </div>
-    {% endif %} -->
+  </div>
+</form>
+{% endfor %}
+{% endif %}
+{% endblock %}
 
-    {% endblock %}
-
-    {% block scripts %}
-    {{ super() }}
+{% block scripts %}
+{{ super() }}
 
 
 
-    {% endblock %}
+{% endblock %}

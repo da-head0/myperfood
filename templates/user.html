@@ -12,24 +12,25 @@
   😺 고양이 등록 페이지입니다.
 </h1>
 <br>
-    {% if message %}
-    <div class="alert alert-danger">
-      <p><strong>{{ message }}</strong></p>
-    </div>
-    {% endif %}
+{% if message %}
+<div class="alert alert-danger">
+  <p><strong>{{ message }}</strong></p>
+</div>
+{% endif %}
 <form>
-<div class="input-group mb-3">
+  <div class="input-group mb-3">
     <div class="input-group-prepend">
       <button class="btn btn-outline-secondary" type="button">CAT</button>
     </div>
-    <input type="text" name="catname" class="form-control" placeholder="고양이의 이름을 입력하세요" aria-label="" aria-describedby="basic-addon1">
+    <input type="text" name="catname" class="form-control" placeholder="고양이의 이름을 입력하세요" aria-label=""
+      aria-describedby="basic-addon1">
   </div>
-  
+
   <div class="input-group mb-3">
     <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button">나이</button>
-        </div>
-    <select class="custom-select" id="inputGroupSelect02" name = "catage">
+      <button class="btn btn-outline-secondary" type="button">나이</button>
+    </div>
+    <select class="custom-select" id="inputGroupSelect02" name="catage">
       <option selected>고양이의 나이를 알려주세요</option>
       <option value="0">1살 미만</option>
       <option value="1">1살</option>
@@ -54,17 +55,17 @@
     <button class="btn btn-outline-secondary" type="submit" data-toggle="modal" data-target="#myModal">고양이 등록</button>
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
-          <div class="alert alert-success alert-dismissible">
-              <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
-              <strong>추가!</strong> 고양이 정보가 추가되었습니다.                  
-            </div>
-          </div>
+        <div class="alert alert-success alert-dismissible">
+          <a class="close" data-dismiss="modal" aria-label="close">&times;</a>
+          <strong>추가!</strong> 고양이 정보가 추가되었습니다.
+        </div>
       </div>
-</div>
+    </div>
+  </div>
 </form>
-      <div class="col text-center">
-          <a class="btn btn-outline" href="main" role="button">😽 고양이 입맛을 알려주세요!</a>
-      </div>
+<div class="col text-center">
+  <a class="btn btn-outline" href="main" role="button">😽 고양이 입맛을 알려주세요!</a>
+</div>
 {% endblock %}
 
 <!-- /.container -->
