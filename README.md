@@ -26,7 +26,7 @@ Fastapi를 사용한 이유는
 ## 화면
 
 ### 메인
-<image src="https://user-images.githubusercontent.com/61692777/121759730-31f05680-cb62-11eb-92dd-75aec112429b.png" width="850">
+<image src="https://user-images.githubusercontent.com/61692777/121760070-c4452a00-cb63-11eb-97e2-285908be6941.png" width="850">
 - 고양이의 정보를 입력받습니다. (로그인과 유사)
 
 ### 사료 평가
