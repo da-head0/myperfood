@@ -12,33 +12,36 @@
 
 ## 사용 스택
 Fastapi 기반을 웹앱을 구축하고, jinja2와 boostrap으로 사이트를 꾸몄습니다. mongodb를 사용하여 데이터를 불러오고 저장합니다. 배포는 heroku로 진행하고 미리 구매해둔 도메인을 연결했습니다. 
-Fastapi를 사용한 이유는 
+Fastapi를 사용한 이유는
 - 성능이 뛰어나고 빠르다
 - 배우기 쉽다
 - 코드작업이 빠르다
 - 에러가 적다
-는 장점이 있었기 때문입니다. 하지만 성능과 시간 면에서는 flask와 큰 차이를 느끼지 못했으며, 오히려 db와 쿼리 시 문법에 for문이 들어가 시간복잡도가 증가하는 경향이 있었습니다.
-찾을 수 있는 샘플 코드도 falsk보다 덜 RESTful한 경우가 있고, 에러가 적은지도 체감상 크게 느끼지 못하였습니다. 최근 핫한 최신의 스택이라고 무조건 답이 아니라는 것도 알게 되었습니다. 하지만 직접 부딪히며 오류와 문제를 해결해본 좋은 경험이 되었습니다.
+는 장점이 있었기 때문입니다. 
+
+하지만 성능과 시간 면에서는 flask와 큰 차이를 느끼지 못했으며, 오히려 db와 쿼리 시 문법에 for문이 들어가 시간복잡도가 증가하는 경향이 있었습니다.
+찾을 수 있는 샘플 코드도 falsk보다 덜 RESTful한 경우가 있고, 에러가 적은지도 체감상 크게 느끼지 못하였습니다. 최근 핫한 최신의 스택이라고 무조건 답이 아니라는 것도 알게 되었습니다. 
+하지만 직접 부딪히며 오류와 문제를 해결해본 좋은 경험이 되었습니다.
 
 ## 화면
 
 ### 메인
-<image src="https://user-images.githubusercontent.com/61692777/121759730-31f05680-cb62-11eb-92dd-75aec112429b.png" width="700">
+<image src="https://user-images.githubusercontent.com/61692777/121759730-31f05680-cb62-11eb-92dd-75aec112429b.png" width="850">
 - 고양이의 정보를 입력받습니다. (로그인과 유사)
 
 ### 사료 평가
-<image src="https://user-images.githubusercontent.com/61692777/121759830-9d3a2880-cb62-11eb-9100-603fadea3f06.png" width="700">
+<image src="https://user-images.githubusercontent.com/61692777/121759830-9d3a2880-cb62-11eb-9100-603fadea3f06.png" width="850">
 - 데이터베이스에 있는 사료들의 정보를 보고 고양이의 선호도를 입력할 수 있습니다.
 - "선호도 입력" 버튼을 누르면 각각의 사료에 대한 고양이의 선호도를 입력할 수 있습니다. 이렇게 입력한 데이터는 "rating" 콜렉션에 저장됩닙다.
 - "평가 후 추천받기" 버튼을 누르면 평가한 사료들을 기반으로 고양이의 입맛에 따른 추천 사료를 볼 수 있습니다. 
 
 ### 사료 추천
-<image src="https://user-images.githubusercontent.com/61692777/121759894-e7230e80-cb62-11eb-9e7a-612bb4a01381.png" width="700">
+<image src="https://user-images.githubusercontent.com/61692777/121759894-e7230e80-cb62-11eb-9e7a-612bb4a01381.png" width="850">
 - 이미 사료를 평가한 고양이들의 평가 정보 갯수와, 고양이별로 추천된 사료들을 확인할 수 있습니다.
-<image src="https://user-images.githubusercontent.com/61692777/121759940-1cc7f780-cb63-11eb-8881-c70489f39c92.png" width="700">
+<image src="https://user-images.githubusercontent.com/61692777/121759940-1cc7f780-cb63-11eb-8881-c70489f39c92.png" width="850">
 - 개별 고양이의 입맛을 바탕으로 10개 사료를 추천합니다.
 
 ### 검색
 정규식을 사용하여, 키워드로 검색이 가능하게 구현하였습니다.
-<image src="https://user-images.githubusercontent.com/61692777/121759982-4f71f000-cb63-11eb-848e-4f1fa57e6303.png" width="700">
+<image src="https://user-images.githubusercontent.com/61692777/121759982-4f71f000-cb63-11eb-848e-4f1fa57e6303.png" width="850">
 
