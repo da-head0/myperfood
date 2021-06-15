@@ -30,7 +30,7 @@ Fastapi를 사용한 이유는
 - 고양이의 정보를 입력받습니다. (로그인과 유사)
 
 ### 사료 평가
-<image src="https://user-images.githubusercontent.com/61692777/121759830-9d3a2880-cb62-11eb-9100-603fadea3f06.png" width="850">
+<image src="https://blog.kakaocdn.net/dn/ds6bWa/btq7pfvRQtG/0ozmuzKYK0kIwvHp8kZ5Ak/img.png" width="850">
 - 데이터베이스에 있는 사료들의 정보를 보고 고양이의 선호도를 입력할 수 있습니다.
 - "선호도 입력" 버튼을 누르면 각각의 사료에 대한 고양이의 선호도를 입력할 수 있습니다. 이렇게 입력한 데이터는 "rating" 콜렉션에 저장됩닙다.
 - "평가 후 추천받기" 버튼을 누르면 평가한 사료들을 기반으로 고양이의 입맛에 따른 추천 사료를 볼 수 있습니다. 
